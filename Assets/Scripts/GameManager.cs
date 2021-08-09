@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
   public GameObject puzzlePiece;
   public GameObject winPanel;
   public GameObject levelPanel;
+  public GameObject pausePanel;
 
   private Puzzle[,] puzzle;
   private Puzzle puzzleSelection;
@@ -20,13 +21,16 @@ public class GameManager : MonoBehaviour
 
   public Button buttonNext;
   public Button buttonExit;
+  public Button buttonPause;
+  public Button buttonResume;
+  public Button buttonMainMenu;
+  public Button buttonMusicController;
 
+  public Sprite spriteVolumeOn;
+  public Sprite spriteMute;
 
-  private void Start()
-  {
-    //puzzlePiece.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, Screen.height);
-    Save.SetLastLevel();
-  }
+  bool isMute = false;
+
 
   void RandomizePlacement()
   {
@@ -133,6 +137,8 @@ public class GameManager : MonoBehaviour
   {
     DestroyPuzzle();
     GetCurrentLevel(levelName);
+
+    winPanel.SetActive(true);
     winPanel.GetComponent<Animator>().SetBool("isWin", false);
 
     GameObject temp;
@@ -145,7 +151,7 @@ public class GameManager : MonoBehaviour
         if (level <= Save.GetLastLevel())
         {
           temp = Instantiate(Resources.Load(levelName) as GameObject, new Vector2(i * 1080 / size, j * 1920 / size), Quaternion.identity);
-          temp.transform.SetParent(transform);
+          temp.transform.SetParent(transform.GetChild(0));
           puzzle[i, j] = (Puzzle)temp.GetComponent<Puzzle>();
           puzzle[i, j].CreatePuzzlePiece(size);
         }
@@ -159,15 +165,40 @@ public class GameManager : MonoBehaviour
 
   void GoToLevelMenu()
   {
+    winPanel.GetComponent<Animator>().SetBool("isWin", false);
+    winPanel.SetActive(false);
+
+    pausePanel.SetActive(false);
+
     levelPanel.SetActive(true);
     gameObject.SetActive(false);
 
     GameObject.Find("Content").GetComponent<LevelMenu>().CurrentLevelProgress();
   }
 
+  void MusicController()
+  {
+    var soundTrack = GameObject.Find("Soundtrack").GetComponent<AudioSource>();
+    if (!isMute)
+    {
+      soundTrack.Stop();
+      buttonMusicController.GetComponent<Image>().sprite = spriteMute;
+    }
+    else if (isMute)
+    {
+      soundTrack.Play();
+      buttonMusicController.GetComponent<Image>().sprite = spriteVolumeOn;
+    }
+    isMute = !isMute;
+  }
+
   private void OnEnable()
   {
     buttonNext.onClick.AddListener(() => LoadLevel("level " + (level + 1).ToString()));
     buttonExit.onClick.AddListener(() => GoToLevelMenu());
+    buttonPause.onClick.AddListener(() => pausePanel.SetActive(true));
+    buttonResume.onClick.AddListener(() => pausePanel.SetActive(false));
+    buttonMainMenu.onClick.AddListener(() => GoToLevelMenu());
+    buttonMusicController.onClick.AddListener(() => MusicController());
   }
 }

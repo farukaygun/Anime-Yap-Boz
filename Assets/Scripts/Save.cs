@@ -13,6 +13,7 @@ public class Save : MonoBehaviour
       PlayerPrefs.SetInt("isFirstRun", 1);
 
       PlayerPrefs.SetInt("level", 1);
+      PlayerPrefs.SetInt("lastLevel", 78);
 
       // Sistem diline göre dili ayarlıyor.
       switch (Application.systemLanguage)
@@ -57,9 +58,5 @@ public class Save : MonoBehaviour
   public static int GetLanguage()
   {
     return PlayerPrefs.GetInt("language");
-  }
-  public static void SetLastLevel()
-  {
-    PlayerPrefs.SetInt("lastLevel", GameObject.Find("Content").transform.childCount); // Levels objesinin altındaki element sayısı
   }
 }
