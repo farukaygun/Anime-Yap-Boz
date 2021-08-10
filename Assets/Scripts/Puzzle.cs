@@ -12,7 +12,7 @@ public class Puzzle : MonoBehaviour
 
   void Start()
   {
-    gameBoard = (GameManager)GameObject.FindObjectOfType<Canvas>().GetComponentInChildren<GameManager>();
+    gameBoard = (GameManager)GameObject.Find("GameManager").GetComponentInChildren<GameManager>();
   }
 
   public void CreatePuzzlePiece(int size)

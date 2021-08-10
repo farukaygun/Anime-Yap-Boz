@@ -38,5 +38,9 @@ MonoBehaviour:
     m_Localized: "\xC7\u0131k\u0131\u015F"
     m_Metadata:
       m_Items: []
+  - m_Id: 1506258210525184
+    m_Localized: Devam
+    m_Metadata:
+      m_Items: []
   references:
     version: 1

@@ -7,11 +7,13 @@ public class LevelMenu : MonoBehaviour
 {
   public List<Button> levelButtons;
   int count;
+  GameManager gameManager;
 
   private void Start()
   {
     CurrentLevelProgress();
     count = transform.childCount;
+    gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
   }
 
   public void CurrentLevelProgress()
@@ -22,6 +24,8 @@ public class LevelMenu : MonoBehaviour
     {
       item.name = i.ToString();
       item.GetComponentInChildren<TextMeshProUGUI>().GetComponent<TextMeshProUGUI>().text = item.name;
+      string level = "Level " + item.name;
+      item.onClick.AddListener(() => gameManager.LevelSelect(level));
 
       levelButtons.Add(item);
       i++;

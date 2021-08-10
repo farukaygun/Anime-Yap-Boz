@@ -35,6 +35,10 @@ MonoBehaviour:
     m_Key: BUTTON_EXIT_WIN
     m_Metadata:
       m_Items: []
+  - m_Id: 1506258210525184
+    m_Key: BUTTON_RESUME
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

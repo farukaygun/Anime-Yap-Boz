@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
   public GameObject winPanel;
   public GameObject levelPanel;
   public GameObject pausePanel;
+  public GameObject panelCurrent;
 
   private Puzzle[,] puzzle;
   private Puzzle puzzleSelection;
@@ -30,7 +31,6 @@ public class GameManager : MonoBehaviour
   public Sprite spriteMute;
 
   bool isMute = false;
-
 
   void RandomizePlacement()
   {
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
     winPanel.GetComponent<Animator>().SetBool("isWin", false);
 
     levelPanel.SetActive(false);
-    gameObject.SetActive(true);
+    panelCurrent.SetActive(true);
 
     LoadLevel(levelName);
   }
@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
         if (level <= Save.GetLastLevel())
         {
           temp = Instantiate(Resources.Load(levelName) as GameObject, new Vector2(i * 1080 / size, j * 1920 / size), Quaternion.identity);
-          temp.transform.SetParent(transform.GetChild(0));
+          temp.transform.SetParent(GameObject.Find("Current").transform);
           puzzle[i, j] = (Puzzle)temp.GetComponent<Puzzle>();
           puzzle[i, j].CreatePuzzlePiece(size);
         }
@@ -165,13 +165,15 @@ public class GameManager : MonoBehaviour
 
   void GoToLevelMenu()
   {
+    pausePanel.SetActive(false);
+
     winPanel.GetComponent<Animator>().SetBool("isWin", false);
     winPanel.SetActive(false);
 
-    pausePanel.SetActive(false);
+    DestroyPuzzle();
 
     levelPanel.SetActive(true);
-    gameObject.SetActive(false);
+    panelCurrent.SetActive(false);
 
     GameObject.Find("Content").GetComponent<LevelMenu>().CurrentLevelProgress();
   }
@@ -199,6 +201,6 @@ public class GameManager : MonoBehaviour
     buttonPause.onClick.AddListener(() => pausePanel.SetActive(true));
     buttonResume.onClick.AddListener(() => pausePanel.SetActive(false));
     buttonMainMenu.onClick.AddListener(() => GoToLevelMenu());
-    buttonMusicController.onClick.AddListener(() => MusicController());
+    buttonMusicController.onClick.AddListener(() => MusicController());0.
   }
 }
