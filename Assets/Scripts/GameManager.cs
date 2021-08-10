@@ -201,6 +201,6 @@ public class GameManager : MonoBehaviour
     buttonPause.onClick.AddListener(() => pausePanel.SetActive(true));
     buttonResume.onClick.AddListener(() => pausePanel.SetActive(false));
     buttonMainMenu.onClick.AddListener(() => GoToLevelMenu());
-    buttonMusicController.onClick.AddListener(() => MusicController());0.
+    buttonMusicController.onClick.AddListener(() => MusicController());
   }
 }
